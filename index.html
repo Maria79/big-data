@@ -1,0 +1,1184 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Análisis de Datos</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #05080f;
+        --surface: #0d1321;
+        --surface2: #131c30;
+        --accent1: #00e5ff;
+        --accent2: #7b61ff;
+        --accent3: #ff6b6b;
+        --accent4: #00ff9d;
+        --accent5: #ffcc00;
+        --text: #e8eaf0;
+        --muted: #8892a4;
+        --border: rgba(0, 229, 255, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        width: 900px;
+        margin: 0 auto;
+        padding: 40px 0 80px;
+      }
+
+      /* ── HEADER ── */
+      .header {
+        position: relative;
+        padding: 60px 50px 50px;
+        background: linear-gradient(
+          135deg,
+          #0a0f1e 0%,
+          #0d1a2e 50%,
+          #091525 100%
+        );
+        border-bottom: 2px solid var(--accent1);
+        overflow: hidden;
+      }
+      .header::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 229, 255, 0.12) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+      .header::after {
+        content: "01001010\A 10110100\A 01101001\A 10010110";
+        white-space: pre;
+        position: absolute;
+        bottom: 20px;
+        right: 50px;
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        color: rgba(0, 229, 255, 0.08);
+        line-height: 1.8;
+        letter-spacing: 3px;
+      }
+      .unit-badge {
+        display: inline-block;
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        color: var(--accent1);
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        border: 1px solid var(--accent1);
+        padding: 4px 14px;
+        border-radius: 2px;
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        font-family: "Syne", sans-serif;
+        font-size: 52px;
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -1px;
+        color: #fff;
+      }
+      .header h1 span {
+        color: var(--accent1);
+      }
+      .header p {
+        margin-top: 14px;
+        font-size: 15px;
+        color: var(--muted);
+        max-width: 500px;
+        line-height: 1.6;
+      }
+      .topics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 24px;
+      }
+      .topics span {
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        color: var(--accent1);
+        background: rgba(0, 229, 255, 0.07);
+        border: 1px solid rgba(0, 229, 255, 0.2);
+        padding: 5px 12px;
+        border-radius: 2px;
+        letter-spacing: 1px;
+      }
+
+      /* ── SECTION ── */
+      .section {
+        margin: 0 30px;
+        padding: 36px 40px;
+        border-left: 3px solid var(--accent1);
+        background: var(--surface);
+        margin-bottom: 3px;
+      }
+      .section:first-of-type {
+        margin-top: 30px;
+      }
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 26px;
+      }
+      .section-num {
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        color: var(--accent1);
+        background: rgba(0, 229, 255, 0.1);
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(0, 229, 255, 0.3);
+        flex-shrink: 0;
+      }
+      .section h2 {
+        font-family: "Syne", sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .section h2 em {
+        font-style: normal;
+        color: var(--accent1);
+      }
+
+      /* color variants per section */
+      .s2 {
+        border-color: var(--accent2);
+      }
+      .s2 .section-num {
+        color: var(--accent2);
+        background: rgba(123, 97, 255, 0.1);
+        border-color: rgba(123, 97, 255, 0.3);
+      }
+      .s2 h2 em {
+        color: var(--accent2);
+      }
+
+      .s3 {
+        border-color: var(--accent4);
+      }
+      .s3 .section-num {
+        color: var(--accent4);
+        background: rgba(0, 255, 157, 0.1);
+        border-color: rgba(0, 255, 157, 0.3);
+      }
+      .s3 h2 em {
+        color: var(--accent4);
+      }
+
+      .s4 {
+        border-color: var(--accent5);
+      }
+      .s4 .section-num {
+        color: var(--accent5);
+        background: rgba(255, 204, 0, 0.1);
+        border-color: rgba(255, 204, 0, 0.3);
+      }
+      .s4 h2 em {
+        color: var(--accent5);
+      }
+
+      .s5 {
+        border-color: var(--accent3);
+      }
+      .s5 .section-num {
+        color: var(--accent3);
+        background: rgba(255, 107, 107, 0.1);
+        border-color: rgba(255, 107, 107, 0.3);
+      }
+      .s5 h2 em {
+        color: var(--accent3);
+      }
+
+      .s6 {
+        border-color: #c084fc;
+      }
+      .s6 .section-num {
+        color: #c084fc;
+        background: rgba(192, 132, 252, 0.1);
+        border-color: rgba(192, 132, 252, 0.3);
+      }
+      .s6 h2 em {
+        color: #c084fc;
+      }
+
+      .s7 {
+        border-color: #34d399;
+      }
+      .s7 .section-num {
+        color: #34d399;
+        background: rgba(52, 211, 153, 0.1);
+        border-color: rgba(52, 211, 153, 0.3);
+      }
+      .s7 h2 em {
+        color: #34d399;
+      }
+
+      /* ── DATO vs INFO ── */
+      .compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+      .compare-card {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        padding: 20px;
+        border-radius: 4px;
+      }
+      .compare-card h3 {
+        font-family: "Syne", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .compare-card.dato h3 {
+        color: var(--accent3);
+      }
+      .compare-card.info h3 {
+        color: var(--accent1);
+      }
+      .compare-card p {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .compare-card .example {
+        margin-top: 10px;
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 2px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      .transform-steps {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin: 14px 0;
+      }
+      .transform-steps .step {
+        font-size: 12px;
+        padding: 6px 14px;
+        background: rgba(0, 229, 255, 0.06);
+        border: 1px solid rgba(0, 229, 255, 0.2);
+        border-radius: 2px;
+        color: var(--accent1);
+        font-family: "Space Mono", monospace;
+      }
+      .arrow-between {
+        color: var(--accent1);
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        padding: 0 4px;
+      }
+
+      /* ── JERARQUÍA ── */
+      .hierarchy {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 16px 20px;
+        background: var(--surface2);
+        border-radius: 4px;
+        border: 1px solid var(--border);
+      }
+      .hierarchy .level {
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        padding: 6px 14px;
+        border-radius: 2px;
+        font-weight: 700;
+      }
+      .hierarchy .l1 {
+        background: rgba(255, 107, 107, 0.15);
+        color: var(--accent3);
+      }
+      .hierarchy .l2 {
+        background: rgba(0, 229, 255, 0.1);
+        color: var(--accent1);
+      }
+      .hierarchy .l3 {
+        background: rgba(123, 97, 255, 0.15);
+        color: var(--accent2);
+      }
+      .hierarchy .l4 {
+        background: rgba(255, 204, 0, 0.1);
+        color: var(--accent5);
+      }
+      .hierarchy .arr {
+        color: var(--muted);
+        font-size: 16px;
+      }
+
+      /* ── CICLO DE VIDA ── */
+      .cycle {
+        display: flex;
+        gap: 0;
+        margin-bottom: 20px;
+      }
+      .cycle-step {
+        flex: 1;
+        background: var(--surface2);
+        border: 1px solid rgba(123, 97, 255, 0.15);
+        padding: 16px 14px;
+        position: relative;
+      }
+      .cycle-step + .cycle-step {
+        border-left: none;
+      }
+      .cycle-step::after {
+        content: "→";
+        position: absolute;
+        right: -10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--accent2);
+        font-size: 16px;
+        z-index: 1;
+        background: var(--bg);
+        padding: 2px;
+      }
+      .cycle-step:last-child::after {
+        display: none;
+      }
+      .cycle-step .num {
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        color: var(--accent2);
+        margin-bottom: 6px;
+      }
+      .cycle-step h4 {
+        font-family: "Syne", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 6px;
+      }
+      .cycle-step p {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* ── BIG DATA ── */
+      .definition-box {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 255, 157, 0.06),
+          rgba(0, 255, 157, 0.02)
+        );
+        border: 1px solid rgba(0, 255, 157, 0.25);
+        border-radius: 4px;
+        padding: 18px 22px;
+        margin-bottom: 18px;
+      }
+      .definition-box p {
+        font-size: 14px;
+        line-height: 1.7;
+        color: var(--text);
+      }
+      .definition-box strong {
+        color: var(--accent4);
+      }
+
+      .disadvantages {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .disadv-item {
+        background: var(--surface2);
+        border-left: 3px solid var(--accent4);
+        padding: 12px 14px;
+        border-radius: 0 4px 4px 0;
+      }
+      .disadv-item h4 {
+        font-family: "Syne", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent4);
+        margin-bottom: 4px;
+      }
+      .disadv-item p {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .case-box {
+        background: var(--surface2);
+        border: 1px dashed rgba(0, 255, 157, 0.2);
+        padding: 14px 18px;
+        border-radius: 4px;
+      }
+      .case-box .label {
+        font-family: "Space Mono", monospace;
+        font-size: 9px;
+        color: var(--accent4);
+        letter-spacing: 3px;
+        margin-bottom: 6px;
+      }
+      .case-box p {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      /* ── 5 V ── */
+      .five-v {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+      .v-card {
+        background: var(--surface2);
+        border: 1px solid rgba(255, 204, 0, 0.15);
+        border-top: 3px solid var(--accent5);
+        padding: 16px 12px;
+        text-align: center;
+        border-radius: 0 0 4px 4px;
+      }
+      .v-card .v-icon {
+        font-size: 22px;
+        margin-bottom: 8px;
+      }
+      .v-card h4 {
+        font-family: "Syne", sans-serif;
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--accent5);
+        margin-bottom: 6px;
+      }
+      .v-card p {
+        font-size: 10px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .ten-v-note {
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        color: var(--muted);
+        padding: 10px 16px;
+        background: rgba(255, 204, 0, 0.04);
+        border: 1px solid rgba(255, 204, 0, 0.1);
+        border-radius: 2px;
+      }
+      .ten-v-note span {
+        color: var(--accent5);
+      }
+
+      /* ── APLICACIONES ── */
+      .sectors {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .sector {
+        background: var(--surface2);
+        border: 1px solid rgba(255, 107, 107, 0.12);
+        border-radius: 4px;
+        padding: 14px 12px;
+      }
+      .sector .s-icon {
+        font-size: 20px;
+        margin-bottom: 6px;
+      }
+      .sector h4 {
+        font-family: "Syne", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent3);
+        margin-bottom: 5px;
+      }
+      .sector p {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* ── IA ── */
+      .ia-diagram {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 20px;
+      }
+      .circles {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        flex-shrink: 0;
+      }
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        text-align: center;
+      }
+      .c-ia {
+        width: 180px;
+        height: 180px;
+        left: 0;
+        top: 0;
+        background: rgba(192, 132, 252, 0.08);
+        border: 2px solid rgba(192, 132, 252, 0.4);
+        font-size: 12px;
+        color: #c084fc;
+        padding-top: 14px;
+        align-items: flex-start;
+      }
+      .c-ml {
+        width: 130px;
+        height: 130px;
+        left: 25px;
+        top: 25px;
+        background: rgba(123, 97, 255, 0.1);
+        border: 2px solid rgba(123, 97, 255, 0.5);
+        font-size: 11px;
+        color: var(--accent2);
+        padding-top: 12px;
+        align-items: flex-start;
+      }
+      .c-dl {
+        width: 80px;
+        height: 80px;
+        left: 50px;
+        top: 50px;
+        background: rgba(0, 229, 255, 0.1);
+        border: 2px solid rgba(0, 229, 255, 0.6);
+        font-size: 9px;
+        color: var(--accent1);
+        text-align: center;
+      }
+      .ia-definitions {
+        flex: 1;
+      }
+      .ia-def {
+        margin-bottom: 14px;
+        padding: 12px 16px;
+        background: var(--surface2);
+        border-left: 3px solid #c084fc;
+        border-radius: 0 4px 4px 0;
+      }
+      .ia-def.ml {
+        border-color: var(--accent2);
+      }
+      .ia-def.dl {
+        border-color: var(--accent1);
+      }
+      .ia-def h4 {
+        font-family: "Syne", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .ia-def.ia-main h4 {
+        color: #c084fc;
+      }
+      .ia-def.ml h4 {
+        color: var(--accent2);
+      }
+      .ia-def.dl h4 {
+        color: var(--accent1);
+      }
+      .ia-def p {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* ── CIENCIA DATOS ── */
+      .data-science {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .ds-step {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        background: var(--surface2);
+        border: 1px solid rgba(52, 211, 153, 0.1);
+        border-radius: 4px;
+        padding: 14px 18px;
+      }
+      .ds-num {
+        font-family: "Space Mono", monospace;
+        font-size: 22px;
+        font-weight: 700;
+        color: #34d399;
+        opacity: 0.4;
+        flex-shrink: 0;
+        width: 36px;
+        line-height: 1;
+      }
+      .ds-content h4 {
+        font-family: "Syne", sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: #34d399;
+        margin-bottom: 4px;
+      }
+      .ds-content p {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      /* ── FOOTER ── */
+      .footer {
+        margin: 40px 30px 0;
+        padding: 20px 30px;
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .footer p {
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        color: var(--muted);
+        letter-spacing: 2px;
+      }
+      .footer span {
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        color: var(--accent1);
+        letter-spacing: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div class="header">
+      <div class="unit-badge">UNIDAD 6 · CFGS · DIGITALIZACIÓN</div>
+      <h1>ANÁLISIS<br /><span>DE DATOS</span></h1>
+      <p>
+        Desde la diferencia entre dato e información hasta la inteligencia
+        artificial, pasando por el big data y la ciencia de datos.
+      </p>
+      <div class="topics">
+        <span>¿INFO O DATO?</span>
+        <span>CICLO DE VIDA</span>
+        <span>BIG DATA</span>
+        <span>5 V</span>
+        <span>APLICACIONES</span>
+        <span>MACHINE LEARNING</span>
+        <span>DEEP LEARNING</span>
+        <span>CIENCIA DE DATOS</span>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 1: DATO vs INFORMACIÓN -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">01</div>
+        <h2>¿<em>Información</em> o Dato?</h2>
+      </div>
+
+      <div class="compare">
+        <div class="compare-card dato">
+          <h3>Dato</h3>
+          <p>
+            Hecho, evento o transacción registrado sin procesar. Es la entrada
+            bruta a partir de la cual se produce la información. Por sí solo no
+            tiene significado alguno.
+          </p>
+          <div class="example">→ "5%"</div>
+        </div>
+        <div class="compare-card info">
+          <h3>Información</h3>
+          <p>
+            Datos procesados y comunicados de tal manera que pueden ser
+            entendidos e interpretados por el receptor. Sirven para tomar
+            decisiones.
+          </p>
+          <div class="example">
+            → "Hemos incrementado un 5% las ventas en el último mes"
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px">
+        Los datos se convierten en información cuando se les añade significado
+        mediante:
+      </p>
+      <div class="transform-steps">
+        <span class="step">Contextualizando</span>
+        <span class="arr">→</span>
+        <span class="step">Categorizando</span>
+        <span class="arr">→</span>
+        <span class="step">Calculando</span>
+        <span class="arr">→</span>
+        <span class="step">Condensando</span>
+      </div>
+
+      <p style="font-size: 13px; color: var(--muted); margin: 14px 0 10px">
+        La jerarquía del conocimiento:
+      </p>
+      <div class="hierarchy">
+        <span class="level l1">DATOS</span>
+        <span class="arr">→</span>
+        <span class="level l2">INFORMACIÓN</span>
+        <span class="arr">→</span>
+        <span class="level l3">CONOCIMIENTO</span>
+        <span class="arr">→</span>
+        <span class="level l4">SABIDURÍA</span>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 2: CICLO DE VIDA -->
+    <div class="section s2">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <h2>El <em>Ciclo de Vida</em> de los Datos</h2>
+      </div>
+
+      <div class="cycle">
+        <div class="cycle-step">
+          <div class="num">01</div>
+          <h4>Captura</h4>
+          <p>
+            Recopilación por entrada manual, sensores, extracción de bases de
+            datos.
+          </p>
+        </div>
+        <div class="cycle-step">
+          <div class="num">02</div>
+          <h4>Almacenamiento</h4>
+          <p>Custodia en repositorios, archivos, bases de datos o la nube.</p>
+        </div>
+        <div class="cycle-step">
+          <div class="num">03</div>
+          <h4>Procesamiento y visualización</h4>
+          <p>
+            Cribado, análisis estadístico, dashboards, gráficos, infografías.
+          </p>
+        </div>
+        <div class="cycle-step">
+          <div class="num">04</div>
+          <h4>Uso operativo</h4>
+          <p>
+            Toma de decisiones, optimización de procesos, mejora de eficiencia.
+          </p>
+        </div>
+        <div class="cycle-step">
+          <div class="num">05</div>
+          <h4>Almacen. / Eliminación / Reutilización</h4>
+          <p>
+            Archivar, eliminar según normativa de privacidad o reutilizar para
+            nuevas iniciativas.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="definition-box"
+        style="
+          background: linear-gradient(
+            135deg,
+            rgba(123, 97, 255, 0.06),
+            rgba(123, 97, 255, 0.02)
+          );
+          border-color: rgba(123, 97, 255, 0.25);
+        "
+      >
+        <p>
+          El
+          <strong style="color: var(--accent2)"
+            >ciclo de vida de los datos</strong
+          >
+          es el conjunto de etapas que los datos atraviesan desde su creación
+          hasta su eliminación o archivado. Cuidar cada fase es clave para
+          evitar problemas de seguridad, pérdida o desorden.
+        </p>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 3: BIG DATA -->
+    <div class="section s3">
+      <div class="section-header">
+        <div class="section-num">03</div>
+        <h2>El <em>Big Data</em></h2>
+      </div>
+
+      <div class="definition-box">
+        <p>
+          <strong>Big data:</strong> datos tan grandes, rápidos o complejos que
+          es difícil o imposible procesarlos con los métodos tradicionales. Los
+          analistas de big data recogen, almacenan y analizan datos para
+          dotarlos de sentido y coherencia.
+        </p>
+      </div>
+
+      <p
+        style="
+          font-size: 13px;
+          color: var(--muted);
+          margin-bottom: 12px;
+          font-family: &quot;Syne&quot;, sans-serif;
+          font-weight: 700;
+          color: #fff;
+        "
+      >
+        Desventajas del Big Data
+      </p>
+      <div class="disadvantages">
+        <div class="disadv-item">
+          <h4>📊 Calidad y cantidad</h4>
+          <p>
+            El enorme volumen hace difícil el análisis y provoca obsolescencia
+            del software. No todos los datos son útiles; hay que depurarlos.
+          </p>
+        </div>
+        <div class="disadv-item">
+          <h4>👤 Falta de personal</h4>
+          <p>
+            Es una ciencia en desarrollo con escasez de profesionales
+            capacitados para manejar estas tecnologías.
+          </p>
+        </div>
+        <div class="disadv-item">
+          <h4>🔐 Ciberseguridad</h4>
+          <p>
+            Las empresas son blanco de ciberdelincuentes. Los gobiernos deben
+            legislar para proteger los datos.
+          </p>
+        </div>
+        <div class="disadv-item">
+          <h4>💰 Costes elevados</h4>
+          <p>
+            Solo las grandes empresas pueden mantener la inversión necesaria en
+            hardware, software y personal.
+          </p>
+        </div>
+      </div>
+
+      <div class="case-box">
+        <div class="label">CASO REAL · UPS</div>
+        <p>
+          UPS usa big data para organizar sus rutas de entrega, logrando un
+          ahorro considerable de combustible y una reducción del tiempo de
+          entrega. El cambio fue costoso: requirió inversión en hardware,
+          software y personal especializado.
+        </p>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 4: 5 V -->
+    <div class="section s4">
+      <div class="section-header">
+        <div class="section-num">04</div>
+        <h2>Las <em>5 V</em> del Big Data</h2>
+      </div>
+
+      <div class="five-v">
+        <div class="v-card">
+          <div class="v-icon">📦</div>
+          <h4>VOLUMEN</h4>
+          <p>La cantidad de datos generados sigue en constante aumento.</p>
+        </div>
+        <div class="v-card">
+          <div class="v-icon">⚡</div>
+          <h4>VELOCIDAD</h4>
+          <p>
+            El análisis exige rapidez. Mejor pocos datos en tiempo real que
+            mucha info con lentitud.
+          </p>
+        </div>
+        <div class="v-card">
+          <div class="v-icon">🎛️</div>
+          <h4>VARIEDAD</h4>
+          <p>Texto, audio, imagen, vídeo, hojas de cálculo, redes sociales…</p>
+        </div>
+        <div class="v-card">
+          <div class="v-icon">✅</div>
+          <h4>VERACIDAD</h4>
+          <p>
+            Los datos deben ser ciertos. Los que no lo sean deben ser filtrados.
+          </p>
+        </div>
+        <div class="v-card">
+          <div class="v-icon">💎</div>
+          <h4>VALOR</h4>
+          <p>
+            Las conclusiones obtenidas deben ser útiles para la toma de
+            decisiones.
+          </p>
+        </div>
+      </div>
+
+      <div class="ten-v-note">
+        ℹ️ Ya hay quienes hablan de <span>«las 10 V del big data»</span>: añaden
+        Visualización, Vulnerabilidad, Validación, Volatilidad y Variabilidad.
+      </div>
+    </div>
+
+    <!-- SECCIÓN 5: APLICACIONES -->
+    <div class="section s5">
+      <div class="section-header">
+        <div class="section-num">05</div>
+        <h2>Aplicaciones del Big Data <em>por Sectores</em></h2>
+      </div>
+
+      <div class="sectors">
+        <div class="sector">
+          <div class="s-icon">🏥</div>
+          <h4>Sanidad</h4>
+          <p>
+            Detección de enfermedades antes de síntomas. Monitoreo de
+            propagación de enfermedades.
+          </p>
+        </div>
+        <div class="sector">
+          <div class="s-icon">🏃</div>
+          <h4>Deporte</h4>
+          <p>
+            Wearables que recogen frecuencia cardíaca, niveles de insulina,
+            patrones de sueño.
+          </p>
+        </div>
+        <div class="sector">
+          <div class="s-icon">🛡️</div>
+          <h4>Seguridad informática</h4>
+          <p>
+            Detectar patrones anómalos para prevenir ataques de hackers y
+            fraudes cibernéticos.
+          </p>
+        </div>
+        <div class="sector">
+          <div class="s-icon">🏙️</div>
+          <h4>Ciudades inteligentes</h4>
+          <p>
+            Gestión del tráfico, planificación pública, reducción del crimen,
+            predicción de averías.
+          </p>
+        </div>
+        <div class="sector">
+          <div class="s-icon">📚</div>
+          <h4>Educación</h4>
+          <p>
+            Detectar riesgo de abandono escolar, mejorar sistemas de evaluación
+            y apoyo a docentes.
+          </p>
+        </div>
+        <div class="sector">
+          <div class="s-icon">💳</div>
+          <h4>Sector financiero</h4>
+          <p>
+            Análisis de riesgos, detección de actividades fraudulentas,
+            optimización de banca electrónica.
+          </p>
+        </div>
+        <div class="sector">
+          <div class="s-icon">✈️</div>
+          <h4>Turismo</h4>
+          <p>
+            Análisis de destinos y alojamientos para ofrecer servicios ajustados
+            al cliente.
+          </p>
+        </div>
+        <div class="sector">
+          <div class="s-icon">🔬</div>
+          <h4>Investigación</h4>
+          <p>
+            Decodificación del ADN. IA aplicada a motores de búsqueda y avances
+            científicos.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 6: IA -->
+    <div class="section s6">
+      <div class="section-header">
+        <div class="section-num">06</div>
+        <h2>
+          Big Data, <em>Machine Learning</em> e <em>Inteligencia Artificial</em>
+        </h2>
+      </div>
+
+      <div class="ia-diagram">
+        <div class="circles">
+          <div class="circle c-ia">IA</div>
+          <div class="circle c-ml">Machine<br />Learning</div>
+          <div class="circle c-dl">Deep<br />Learning</div>
+        </div>
+        <div class="ia-definitions">
+          <div class="ia-def ia-main">
+            <h4>🤖 Inteligencia Artificial</h4>
+            <p>
+              Posibilidad de que las máquinas realicen tareas que requieren
+              inteligencia humana. El ML y el DL posibilitan el aprendizaje
+              automático y profundo de los sistemas IA.
+            </p>
+          </div>
+          <div class="ia-def ml">
+            <h4>⚙️ Machine Learning</h4>
+            <p>
+              Algoritmos y modelos estadísticos para que las máquinas aprendan a
+              realizar tareas específicas sin intervención humana directa.
+            </p>
+          </div>
+          <div class="ia-def dl">
+            <h4>🧠 Deep Learning</h4>
+            <p>
+              Forma avanzada de ML que usa redes neuronales artificiales para
+              tareas complejas: reconocimiento de imágenes, procesamiento del
+              lenguaje natural.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-box" style="border-color: rgba(192, 132, 252, 0.2)">
+        <div class="label" style="color: #c084fc">
+          EJEMPLO · COMERCIO ELECTRÓNICO
+        </div>
+        <p>
+          Una tienda online recopila big data de clics, compras y comentarios →
+          aplica análisis de datos para identificar patrones → usa machine
+          learning para personalizar recomendaciones → deep learning para
+          reconocer productos en imágenes → la IA ajusta precios y ofrece
+          chatbots automáticamente.
+        </p>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 7: CIENCIA DE DATOS -->
+    <div class="section s7">
+      <div class="section-header">
+        <div class="section-num">07</div>
+        <h2>La <em>Ciencia de Datos</em></h2>
+      </div>
+
+      <div
+        class="definition-box"
+        style="
+          background: linear-gradient(
+            135deg,
+            rgba(52, 211, 153, 0.06),
+            rgba(52, 211, 153, 0.02)
+          );
+          border-color: rgba(52, 211, 153, 0.25);
+          margin-bottom: 20px;
+        "
+      >
+        <p>
+          Campo multidisciplinario que utiliza
+          <strong style="color: #34d399"
+            >métodos científicos, procesos y sistemas</strong
+          >
+          para extraer conocimientos de datos. Incluye estadística, aprendizaje
+          automático y visualización. Está presente en todo el ciclo de vida del
+          dato.
+        </p>
+      </div>
+
+      <div class="data-science">
+        <div class="ds-step">
+          <div class="ds-num">01</div>
+          <div class="ds-content">
+            <h4>Definición del problema</h4>
+            <p>
+              Detectar situaciones que deben mejorarse. Ej: en un bufete de
+              abogados, la duración de los casos varía mucho → se quiere mejorar
+              la asignación de recursos.
+            </p>
+          </div>
+        </div>
+        <div class="ds-step">
+          <div class="ds-num">02</div>
+          <div class="ds-content">
+            <h4>Adquisición y preparación de datos</h4>
+            <p>
+              Recoger datos relevantes para el interrogante planteado y
+              prepararlos para el análisis. Puede implicar recopilar casos
+              anteriores, documentos legales y datos de clientes.
+            </p>
+          </div>
+        </div>
+        <div class="ds-step">
+          <div class="ds-num">03</div>
+          <div class="ds-content">
+            <h4>Análisis exploratorio de datos (EDA)</h4>
+            <p>
+              Visualizar los datos para identificar tendencias y patrones. Ej:
+              duración promedio de casos, frecuencia de tipos de litigios,
+              relaciones entre variables clave.
+            </p>
+          </div>
+        </div>
+        <div class="ds-step">
+          <div class="ds-num">04</div>
+          <div class="ds-content">
+            <h4>Modelado de datos</h4>
+            <p>
+              Construcción de modelos predictivos o clasificatorios. Ej: modelo
+              que predice la probabilidad de éxito en un caso basándose en
+              características específicas.
+            </p>
+          </div>
+        </div>
+        <div class="ds-step">
+          <div class="ds-num">05</div>
+          <div class="ds-content">
+            <h4>Implementación de resultados y evaluación</h4>
+            <p>
+              Aplicar los resultados en la práctica y evaluar su efectividad. La
+              empresa ajusta sus estrategias basándose en las predicciones del
+              modelo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <p>IES SAN MARCOS · TENERIFE · 1.º CFGS ASISTENCIA A LA DIRECCIÓN</p>
+      <span>DIGITALIZACIÓN · UNIDAD 6</span>
+    </div>
+  </body>
+</html>
